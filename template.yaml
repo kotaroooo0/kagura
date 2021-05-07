@@ -10,7 +10,13 @@ Globals:
     Timeout: 5
 
 Params:
+  CONSUMER_KEY:
+    Type: String
   CONSUMER_SECRET:
+    Type: String
+  ACCESS_TOKEN_KEY:
+    Type: String
+  ACCESS_TOKEN_SECRET:
     Type: String
 
 Resources:
@@ -30,3 +36,53 @@ Resources:
       Environment:
         Variables:
           CONSUMER_SECRET: !Ref CONSUMER_SECRET
+  TwitterScheduledFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: twitter/schedule/
+      Handler: twitter-schedule
+      Runtime: go1.x
+      Tracing: Active
+      Events:
+        Tohoku:
+          Type: Schedule
+          Properties:
+              Schedule: rate(1 second)
+              Input: |
+                {
+                  "first": "UrabandaiNekoma",
+                  "second": "GetouKogen"
+                }
+        Shinetsu:
+          Type: Schedule
+          Properties:
+              Schedule: rate(1 second)
+              Input: |
+                {
+                  "first": "Hakuba47",
+                  "second": "MyokoSuginohara"
+                }
+        Kanto:
+          Type: Schedule
+          Properties:
+              Schedule: rate(1 second)
+              Input: |
+                {
+                  "first": "TashiroKaguraMitsumata",
+                  "second": "MarunumaKogen"
+                }
+        Kansai:
+          Type: Schedule
+          Properties:
+              Schedule: rate(1 second)
+              Input: |
+                {
+                  "first": "TakasuSnowPark",
+                  "second": "HachiKogen"
+                }
+      Environment:
+        Variables:
+          CONSUMER_KEY: !Ref CONSUMER_KEY
+          CONSUMER_SECRET: !Ref CONSUMER_SECRET
+          ACCESS_TOKEN_KEY: !Ref ACCESS_TOKEN_KEY
+          ACCESS_TOKEN_SECRET: !Ref ACCESS_TOKEN_SECRET

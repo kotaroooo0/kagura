@@ -9,5 +9,5 @@ func NewSimilarSearcher() *SimilarSearcher {
 
 func (ss *SimilarSearcher) Search(q string) (string, error) {
 	// TBD
-	return ""
+	return "", nil
 }
